@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tiera E. Williams</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=Manrope:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+:root {
+  --ink: #0A0A0A;
+  --gold: #D4A017;
+  --gold2: #F5CC5A;
+  --ivory: #F9F5ED;
+  --red: #C1121F;
+  --white: #FFFFFF;
+  --muted: #6B6560;
+}
+body { background: var(--ink); color: var(--white); font-family: 'Manrope', sans-serif; overflow-x: hidden; }
+
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  padding: 1.2rem 3rem;
+  display: flex; justify-content: space-between; align-items: center;
+  mix-blend-mode: difference;
+}
+.nav-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.1em; color: var(--white); }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a { color: var(--white); text-decoration: none; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; }
+
+.hero { height: 100vh; position: relative; display: flex; align-items: flex-end; overflow: hidden; background: var(--ink); }
+.hero-bg-text {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(12rem, 28vw, 26rem);
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(212,160,23,0.15);
+  white-space: nowrap; pointer-events: none; z-index: 0; line-height: 1;
+}
+.hero-content {
+  position: relative; z-index: 2; width: 100%;
+  padding: 0 3rem 5rem;
+  display: grid; grid-template-columns: 1fr auto; align-items: flex-end; gap: 3rem;
+}
+.hero-sup {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 1rem;
+}
+.hero-sup::before { content: ''; display: inline-block; width: 40px; height: 2px; background: var(--gold); }
+.hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(6rem, 14vw, 13rem); line-height: 0.88; letter-spacing: 0.02em; }
+.hero-title .line2 { color: var(--gold); display: block; padding-left: 3vw; }
+.hero-descriptor { writing-mode: vertical-rl; text-orientation: mixed; transform: rotate(180deg); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); height: 220px; }
+.hero-scroll { margin-top: 1.5rem; font-size: 0.7rem; letter-spacing: 0.15em; color: var(--gold); text-transform: uppercase; display: flex; flex-direction: column; align-items: flex-end; gap: 0.5rem; }
+.scroll-line { width: 1px; height: 60px; background: linear-gradient(to bottom, var(--gold), transparent); margin-left: auto; animation: scrollPulse 2s ease-in-out infinite; }
+@keyframes scrollPulse { 0%,100%{opacity:1}50%{opacity:0.3} }
+
+.marquee-bar { background: var(--gold); padding: 1rem 0; overflow: hidden; white-space: nowrap; }
+.marquee-track { display: inline-flex; animation: marquee 20s linear infinite; }
+.marquee-item { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.08em; color: var(--ink); padding: 0 2.5rem; }
+.marquee-item span { color: var(--red); margin-right: 2.5rem; }
+@keyframes marquee { 0%{transform:translateX(0)}100%{transform:translateX(-50%)} }
+
+.identity { display: grid; grid-template-columns: 1fr 1fr; min-height: 90vh; }
+.identity-left { background: var(--ivory); color: var(--ink); padding: 6rem 4rem 6rem 5rem; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; }
+.identity-left::after { content: 'TEW'; position: absolute; bottom: -2rem; right: -1rem; font-family: 'Bebas Neue', sans-serif; font-size: 14rem; color: rgba(0,0,0,0.05); pointer-events: none; line-height: 1; }
+.section-kicker { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--red); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.8rem; }
+.section-kicker::before { content: ''; width: 30px; height: 2px; background: var(--red); }
+.identity-heading { font-family: 'DM Serif Display', serif; font-size: clamp(2.8rem, 4.5vw, 5rem); font-weight: 400; line-height: 1.1; color: var(--ink); margin-bottom: 2.5rem; }
+.identity-heading em { font-style: italic; color: var(--red); }
+.identity-body { font-size: 1.05rem; line-height: 1.85; color: #3D3A36; max-width: 480px; margin-bottom: 1.5rem; }
+.badges { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1rem; }
+.badge { background: var(--ink); color: var(--gold2); padding: 0.4rem 1rem; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+.identity-right { background: var(--ink); display: flex; flex-direction: column; justify-content: space-between; padding: 5rem 4rem; border-left: 1px solid rgba(212,160,23,0.15); }
+.stat-block { border-bottom: 1px solid rgba(212,160,23,0.15); padding: 2.5rem 0; }
+.stat-block:first-child { padding-top: 0; }
+.stat-block:last-child { border-bottom: none; padding-bottom: 0; }
+.stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 5rem; line-height: 1; color: var(--gold); }
+.stat-label { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-top: 0.3rem; }
+
+.titles-section { background: var(--red); padding: 7rem 5rem; position: relative; overflow: hidden; }
+.titles-section::before { content: '★'; position: absolute; top: -3rem; right: -2rem; font-size: 22rem; color: rgba(255,255,255,0.06); pointer-events: none; }
+.titles-heading { font-family: 'Bebas Neue', sans-serif; font-size: clamp(4rem, 9vw, 8rem); line-height: 0.9; color: var(--white); letter-spacing: 0.03em; margin-bottom: 3rem; }
+.titles-heading .gold { color: var(--gold2); }
+.titles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.title-card { background: rgba(0,0,0,0.25); padding: 3rem 2.5rem; transition: background 0.3s; cursor: default; }
+.title-card:hover { background: rgba(0,0,0,0.4); }
+.title-year { font-family: 'Bebas Neue', sans-serif; font-size: 5rem; color: rgba(255,255,255,0.12); line-height: 1; margin-bottom: -1rem; }
+.title-name { font-family: 'DM Serif Display', serif; font-size: 1.6rem; font-style: italic; color: var(--gold2); margin-bottom: 0.5rem; position: relative; z-index: 1; }
+.title-desc { font-size: 0.82rem; color: rgba(255,255,255,0.65); line-height: 1.7; }
+
+.manifesto { background: var(--ink); padding: 8rem 5rem; }
+.manifesto-inner { max-width: 1100px; margin: 0 auto; }
+.manifesto-kicker { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 2rem; }
+.manifesto-text { font-family: 'DM Serif Display', serif; font-size: clamp(2.2rem, 4vw, 4rem); font-weight: 400; line-height: 1.3; color: var(--white); }
+.manifesto-text em { font-style: italic; color: var(--gold); }
+.manifesto-text .red { color: var(--red); }
+.manifesto-line { width: 100%; height: 1px; background: rgba(212,160,23,0.2); margin: 4rem 0; }
+.manifesto-pillars { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid rgba(212,160,23,0.15); }
+.pillar { padding: 2.5rem 2rem; border-right: 1px solid rgba(212,160,23,0.15); transition: background 0.3s; }
+.pillar:last-child { border-right: none; }
+.pillar:hover { background: rgba(212,160,23,0.04); }
+.pillar-icon { font-size: 1.8rem; margin-bottom: 1rem; display: block; }
+.pillar-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 0.05em; color: var(--gold2); margin-bottom: 0.8rem; }
+.pillar-text { font-size: 0.83rem; color: var(--muted); line-height: 1.8; }
+
+.edu-strip { background: var(--ivory); color: var(--ink); padding: 5rem; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; }
+.edu-item { padding: 2rem 3rem; border-right: 1px solid rgba(0,0,0,0.1); }
+.edu-item:last-child { border-right: none; }
+.edu-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--red); margin-bottom: 0.8rem; }
+.edu-name { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; letter-spacing: 0.03em; color: var(--ink); line-height: 1.1; margin-bottom: 0.4rem; }
+.edu-sub { font-size: 0.82rem; color: #5A5550; }
+
+.big-quote { background: var(--gold); padding: 7rem 5rem; text-align: center; position: relative; overflow: hidden; }
+.big-quote::before { content: '"'; position: absolute; top: -4rem; left: 2rem; font-family: 'DM Serif Display', serif; font-size: 28rem; color: rgba(0,0,0,0.08); line-height: 1; pointer-events: none; }
+.quote-words { font-family: 'DM Serif Display', serif; font-size: clamp(2rem, 4vw, 4rem); font-weight: 400; font-style: italic; line-height: 1.4; color: var(--ink); max-width: 900px; margin: 0 auto 2rem; position: relative; z-index: 1; }
+.quote-by { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(0,0,0,0.5); position: relative; z-index: 1; }
+
+.connect { background: var(--ink); padding: 8rem 5rem; display: grid; grid-template-columns: 1.2fr 1fr; gap: 6rem; align-items: start; }
+.connect-heading { font-family: 'Bebas Neue', sans-serif; font-size: clamp(4rem, 8vw, 7rem); line-height: 0.9; letter-spacing: 0.03em; margin-bottom: 2rem; }
+.connect-heading .gold { color: var(--gold); }
+.connect-sub { font-size: 1rem; line-height: 1.8; color: var(--muted); margin-bottom: 3rem; max-width: 420px; }
+.connect-links { display: flex; flex-direction: column; gap: 1px; }
+.connect-link { display: flex; align-items: center; justify-content: space-between; padding: 1.4rem 0; border-bottom: 1px solid rgba(255,255,255,0.08); color: var(--white); text-decoration: none; font-size: 0.9rem; font-weight: 500; letter-spacing: 0.03em; transition: color 0.2s; }
+.connect-link:hover { color: var(--gold); }
+.connect-platform { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-left: auto; margin-right: 1.5rem; }
+.form-row { margin-bottom: 1.2rem; }
+.form-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 0.5rem; }
+.form-input { width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.15); color: var(--white); padding: 0.8rem 0; font-family: 'Manrope', sans-serif; font-size: 0.95rem; outline: none; transition: border-color 0.3s; }
+.form-input:focus { border-bottom-color: var(--gold); }
+.form-input::placeholder { color: rgba(255,255,255,0.2); }
+textarea.form-input { resize: none; min-height: 100px; border: 1px solid rgba(255,255,255,0.15); padding: 0.8rem 1rem; margin-top: 0.5rem; }
+textarea.form-input:focus { border-color: var(--gold); }
+.submit-btn { margin-top: 2rem; background: var(--gold); color: var(--ink); border: none; padding: 1.1rem 3rem; font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: 0.12em; cursor: pointer; display: flex; align-items: center; gap: 1rem; transition: background 0.2s, transform 0.15s; }
+.submit-btn:hover { background: var(--gold2); transform: translateY(-2px); }
+
+footer { background: var(--ink); border-top: 1px solid rgba(255,255,255,0.06); padding: 2.5rem 5rem; display: flex; justify-content: space-between; align-items: center; }
+.footer-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 0.08em; color: var(--gold); }
+.footer-copy { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.08em; }
+.footer-zeta { font-family: 'DM Serif Display', serif; font-size: 2rem; color: rgba(212,160,23,0.5); }
+
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.9s ease, transform 0.9s ease; }
+.reveal.on { opacity: 1; transform: none; }
+
+@media (max-width: 900px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
+  .hero-content { grid-template-columns: 1fr; padding: 0 1.5rem 4rem; }
+  .hero-right { display: none; }
+  .identity { grid-template-columns: 1fr; }
+  .identity-left { padding: 5rem 2rem 4rem; }
+  .identity-right { padding: 3rem 2rem; }
+  .titles-section { padding: 5rem 2rem; }
+  .titles-grid { grid-template-columns: 1fr; gap: 2px; }
+  .manifesto { padding: 5rem 2rem; }
+  .manifesto-pillars { grid-template-columns: 1fr 1fr; }
+  .pillar { border-bottom: 1px solid rgba(212,160,23,0.15); }
+  .edu-strip { grid-template-columns: 1fr; padding: 3rem 2rem; }
+  .edu-item { border-right: none; border-bottom: 1px solid rgba(0,0,0,0.1); padding: 2rem; }
+  .edu-item:last-child { border-bottom: none; }
+  .big-quote { padding: 5rem 2rem; }
+  .connect { grid-template-columns: 1fr; padding: 5rem 2rem; gap: 3rem; }
+  footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-name">Tiera E. Williams</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#titles">Titles</a></li>
+    <li><a href="#mission">Mission</a></li>
+    <li><a href="#connect">Connect</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg-text">TIERA</div>
+  <div class="hero-content">
+    <div class="hero-left">
+      <p class="hero-sup">Miss DC 2024 · Yale MBA · Powerhouse</p>
+      <h1 class="hero-title">TIERA<span class="line2">WILLIAMS</span></h1>
+    </div>
+    <div class="hero-right">
+      <div class="hero-descriptor">Scholar · Leader · Advocate · Queen</div>
+      <div class="hero-scroll">Scroll<div class="scroll-line"></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee-bar">
+  <div class="marquee-track">
+    <span class="marquee-item">Miss DC 2024 <span>★</span></span>
+    <span class="marquee-item">Yale School of Management <span>★</span></span>
+    <span class="marquee-item">Hechinger Scholar <span>★</span></span>
+    <span class="marquee-item">MLT Fellow <span>★</span></span>
+    <span class="marquee-item">Miss Black NJ 2022 <span>★</span></span>
+    <span class="marquee-item">Howard University Alumna <span>★</span></span>
+    <span class="marquee-item">ΖΦΒ Soror <span>★</span></span>
+    <span class="marquee-item">Financial Services Leader <span>★</span></span>
+    <span class="marquee-item">Miss DC 2024 <span>★</span></span>
+    <span class="marquee-item">Yale School of Management <span>★</span></span>
+    <span class="marquee-item">Hechinger Scholar <span>★</span></span>
+    <span class="marquee-item">MLT Fellow <span>★</span></span>
+    <span class="marquee-item">Miss Black NJ 2022 <span>★</span></span>
+    <span class="marquee-item">Howard University Alumna <span>★</span></span>
+    <span class="marquee-item">ΖΦΒ Soror <span>★</span></span>
+    <span class="marquee-item">Financial Services Leader <span>★</span></span>
+  </div>
+</div>
+
+<section class="identity" id="about">
+  <div class="identity-left">
+    <p class="section-kicker">Who She Is</p>
+    <h2 class="identity-heading">Built for the<br>room <em>and</em> the<br>revolution.</h2>
+    <p class="identity-body">Tiera E. Williams is a solutions-oriented leader at the intersection of finance, education, and service. From the small town of Clyo, Georgia to the Yale School of Management, she has never stopped pushing — or opening doors for those coming behind her.</p>
+    <p class="identity-body">As a Hechinger Scholar, MLT Fellow, and proud Howard University alumna, Tiera combines executive-level thinking with ground-level commitment to equity. A financial services strategist by training, a community builder by nature, and a crown-wearer by achievement.</p>
+    <div class="badges">
+      <span class="badge">Yale MBA</span>
+      <span class="badge">Miss DC '24</span>
+      <span class="badge">Hechinger Scholar</span>
+      <span class="badge">MLT Fellow</span>
+      <span class="badge">Howard Alumna</span>
+      <span class="badge">ΖΦΒ</span>
+      <span class="badge">Finance</span>
+      <span class="badge">Global Traveler</span>
+    </div>
+  </div>
+  <div class="identity-right reveal">
+    <div class="stat-block"><div class="stat-num">2024</div><div class="stat-label">Miss District of Columbia</div></div>
+    <div class="stat-block"><div class="stat-num">2022</div><div class="stat-label">Miss Black New Jersey</div></div>
+    <div class="stat-block"><div class="stat-num">2.3K+</div><div class="stat-label">Followers & Growing Community</div></div>
+    <div class="stat-block"><div class="stat-num">3</div><div class="stat-label">Elite Fellowships & Scholarships</div></div>
+  </div>
+</section>
+
+<section class="titles-section reveal" id="titles">
+  <div class="titles-heading">EARNED.<br><span class="gold">EVERY</span><br>CROWN.</div>
+  <div class="titles-grid">
+    <div class="title-card"><div class="title-year">24</div><div class="title-name">Miss DC 2024</div><div class="title-desc">Representing Washington, D.C. at the national level — advocating for education equity and economic empowerment for underserved communities across America.</div></div>
+    <div class="title-card"><div class="title-year">22</div><div class="title-name">Miss Black NJ 2022</div><div class="title-desc">State-level platform for celebrating Black excellence, beauty, and leadership. A stepping stone forged with intentionality and grace.</div></div>
+    <div class="title-card"><div class="title-year">SOM</div><div class="title-name">Yale MBA Candidate</div><div class="title-desc">One of the world's most competitive MBA programs — developing the next generation of business leaders who center equity and impact in every decision.</div></div>
+    <div class="title-card"><div class="title-year">MLT</div><div class="title-name">Consortium-MLT Fellow</div><div class="title-desc">Management Leadership for Tomorrow: accelerating high-achieving diverse professionals into executive roles across business and finance.</div></div>
+    <div class="title-card"><div class="title-year">EDU</div><div class="title-name">Hechinger Scholar</div><div class="title-desc">A prestigious fellowship for those committed to advancing education policy and equity — because every child deserves a world-class education.</div></div>
+    <div class="title-card"><div class="title-year">HU</div><div class="title-name">Howard University Alumna</div><div class="title-desc">The Mecca. Where the foundation was built. Howard's legacy lives in every room Tiera walks into and every door she refuses to let close behind her.</div></div>
+  </div>
+</section>
+
+<div class="edu-strip reveal">
+  <div class="edu-item"><div class="edu-label">Graduate Education</div><div class="edu-name">Yale School of Management</div><div class="edu-sub">MBA Candidate · New Haven, CT</div></div>
+  <div class="edu-item"><div class="edu-label">Undergraduate Education</div><div class="edu-name">Howard University</div><div class="edu-sub">Alumna · Washington, D.C. · The Mecca</div></div>
+  <div class="edu-item"><div class="edu-label">Industry</div><div class="edu-name">Financial Services</div><div class="edu-sub">Solutions-Oriented Leader · Strategic Finance</div></div>
+</div>
+
+<section class="manifesto" id="mission">
+  <div class="manifesto-inner">
+    <div class="manifesto-kicker reveal">Mission</div>
+    <p class="manifesto-text reveal">I walk into <em>every room</em> knowing I was built for it — and committed to making sure the next generation knows the <span class="red">same about themselves.</span></p>
+    <div class="manifesto-line"></div>
+    <div class="manifesto-pillars reveal">
+      <div class="pillar"><span class="pillar-icon">📚</span><div class="pillar-title">Education Equity</div><div class="pillar-text">Every student deserves access to excellence regardless of their zip code. Period.</div></div>
+      <div class="pillar"><span class="pillar-icon">💰</span><div class="pillar-title">Economic Power</div><div class="pillar-text">Financial literacy and capital access transform families, communities, and generations.</div></div>
+      <div class="pillar"><span class="pillar-icon">👑</span><div class="pillar-title">Black Excellence</div><div class="pillar-text">Unapologetically celebrating, uplifting, and amplifying Blackness in every sphere.</div></div>
+      <div class="pillar'><span class="pillar-icon">🌍</span><div class="pillar-title">Servant Leadership</div><div class="pillar-text">From Clyo, Georgia to Yale to the world — leadership means showing up for others.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="big-quote">
+  <p class="quote-words">"Highly motivated. Solutions-oriented. A demonstrated history of getting it done."</p>
+  <p class="quote-by">— Tiera E. Williams, in her own words</p>
+</section>
+
+<section class="connect" id="connect">
+  <div class="connect-left reveal">
+    <div class="section-kicker" style="color:var(--gold);">Connect</div>
+    <h2 class="connect-heading">LET'S<br>BUILD<br><span class="gold">TOGETHER.</span></h2>
+    <p class="connect-sub">Speaking engagements, collaborations, mentorship, or a conversation about education and equity — Tiera is ready to show up.</p>
+    <div class="connect-links">
+      <a href="https://www.instagram.com/tieraewilliams" target="_blank" class="connect-link"><span>@tieraewilliams</span><span class="connect-platform">Instagram</span><span>↗</span></a>
+      <a href="https://www.linkedin.com/in/tiera-e-williams" target="_blank" class="connect-link"><span>Tiera E. Williams</span><span class="connect-platform">LinkedIn</span><span>↗</span></a>
+    </div>
+  </div>
+  <div class="connect-right reveal">
+    <div class="form-row"><label class="form-label">Name</label><input type="text" class="form-input" placeholder="Your full name"></div>
+    <div class="form-row"><label class="form-label">Email</label><input type="email" class="form-input" placeholder="your@email.com"></div>
+    <div class="form-row"><label class="form-label">What's the opportunity?</label><input type="text" class="form-input" placeholder="Speaking, Mentorship, Collaboration..."></div>
+    <div class="form-row"><label class="form-label">Tell me more</label><textarea class="form-input" placeholder="I'd love to hear from you..."></textarea></div>
+    <button class="submit-btn">Send It ↗</button>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-name">Tiera E. Williams</div>
+  <div class="footer-copy">© 2024 · Yale · Howard · DC · The World</div>
+  <div class="footer-zeta">ΖΦΒ</div>
+</footer>
+
+<script>
+const reveals = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('on'), i * 100);
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+reveals.forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
