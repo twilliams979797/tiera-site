@@ -284,11 +284,13 @@ footer { background: var(--ink); border-top: 1px solid rgba(255,255,255,0.06); p
     </div>
   </div>
   <div class="connect-right reveal">
-    <div class="form-row"><label class="form-label">Name</label><input type="text" class="form-input" placeholder="Your full name"></div>
-    <div class="form-row"><label class="form-label">Email</label><input type="email" class="form-input" placeholder="your@email.com"></div>
-    <div class="form-row"><label class="form-label">What's the opportunity?</label><input type="text" class="form-input" placeholder="Speaking, Mentorship, Collaboration..."></div>
-    <div class="form-row"><label class="form-label">Tell me more</label><textarea class="form-input" placeholder="I'd love to hear from you..."></textarea></div>
-    <button class="submit-btn">Send It ↗</button>
+    <form class="connect-form" action="/send/" method="GET">
+      <div class="form-row"><label class="form-label">Name</label><input name="name" type="text" class="form-input" placeholder="Your full name"></div>
+      <div class="form-row"><label class="form-label">Email</label><input name="email" type="email" class="form-input" placeholder="your@email.com"></div>
+      <div class="form-row"><label class="form-label">What's the opportunity?</label><input name="opportunity" type="text" class="form-input" placeholder="Speaking, Mentorship, Collaboration..."></div>
+      <div class="form-row"><label class="form-label">Tell me more</label><textarea name="message" class="form-input" placeholder="I'd love to hear from you..."></textarea></div>
+      <button type="submit" class="submit-btn">Send It ↗</button>
+    </form>
   </div>
 </section>
 

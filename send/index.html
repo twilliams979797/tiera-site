@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secure Contact Portal</title>
+<style>
+  :root {
+    --ink: #0A0A0A;
+    --white: #FFFFFF;
+    --blue: #0099FF;
+    --gray: #E8E8E8;
+    --muted: #7B7B7B;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Manrope', sans-serif; color: var(--ink); background: #F7F9FE; }
+  .page { max-width: 720px; margin: 0 auto; padding: 4rem 2rem; }
+  h1 { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; margin-bottom: 1rem; }
+  p { line-height: 1.7; color: var(--muted); }
+  .panel { background: var(--white); border-radius: 24px; box-shadow: 0 24px 80px rgba(16,24,40,0.08); padding: 2.5rem; margin-top: 2rem; }
+  label { display: block; margin-top: 1.5rem; font-size: 0.9rem; font-weight: 700; color: #222; }
+  input, textarea { width: 100%; padding: 0.95rem 1rem; border: 1px solid #D8DCE7; border-radius: 14px; margin-top: 0.7rem; font-size: 0.95rem; }
+  textarea { min-height: 160px; resize: vertical; }
+  button { margin-top: 1.8rem; padding: 1rem 1.8rem; background: var(--blue); border: none; border-radius: 16px; color: var(--white); font-weight: 700; cursor: pointer; }
+  .result { margin-top: 2rem; padding: 1.8rem; border-radius: 18px; border: 1px solid rgba(0,0,0,0.05); background: #F4F9FF; }
+  .result h2 { margin: 0 0 1rem; }
+  .field { margin-bottom: 1rem; }
+  .field span { display: block; font-size: 0.85rem; color: var(--muted); }
+  .field strong { display: block; margin-top: 0.4rem; font-size: 1.02rem; color: #111; }
+  .note { margin-top: 1rem; font-size: 0.9rem; color: var(--muted); }
+</style>
+</head>
+<body>
+  <div class="page">
+    <h1>Secure Contact Portal</h1>
+    <p>This page is the protected destination for all form submissions from the main site.
+       Enter the password below to unlock the most recent contact details.</p>
+
+    <div class="panel" id="passwordPanel">
+      <form id="passwordForm">
+        <label for="password">Password</label>
+        <input id="password" type="password" placeholder="Enter secure password" required>
+        <button type="submit">Unlock Submission</button>
+      </form>
+      <p class="note">The form data arrives here via the secure subdomain route and is displayed only after authentication.</p>
+    </div>
+
+    <div class="panel" id="submissionPanel" style="display:none;">
+      <h2>Submission Received</h2>
+      <div id="submissionContent"></div>
+      <p class="note">This page is intended for authorized access only. Keep the password secure.</p>
+    </div>
+  </div>
+
+  <script>
+    const PASSWORD = 'TieraContact2026!';
+    const params = new URLSearchParams(window.location.search);
+    const submission = {
+      name: params.get('name') || '—',
+      email: params.get('email') || '—',
+      opportunity: params.get('opportunity') || '—',
+      message: params.get('message') || '—'
+    };
+
+    const passwordForm = document.getElementById('passwordForm');
+    const passwordPanel = document.getElementById('passwordPanel');
+    const submissionPanel = document.getElementById('submissionPanel');
+    const submissionContent = document.getElementById('submissionContent');
+
+    passwordForm.addEventListener('submit', event => {
+      event.preventDefault();
+      const entered = document.getElementById('password').value;
+      if (entered === PASSWORD) {
+        passwordPanel.style.display = 'none';
+        submissionPanel.style.display = 'block';
+        submissionContent.innerHTML = `
+          <div class="field"><span>Name</span><strong>${submission.name}</strong></div>
+          <div class="field"><span>Email</span><strong>${submission.email}</strong></div>
+          <div class="field"><span>Opportunity</span><strong>${submission.opportunity}</strong></div>
+          <div class="field"><span>Message</span><strong>${submission.message}</strong></div>
+        `;
+      } else {
+        alert('Incorrect password.');
+      }
+    });
+  </script>
+</body>
+</html>
