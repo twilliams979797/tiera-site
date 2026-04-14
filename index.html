@@ -12,6 +12,7 @@ html { scroll-behavior: smooth; }
   --ink: #0A0A0A;
   --gold: #FF007F;
   --gold2: #FF5FA2;
+  --purple: #A14CF7;
   --ivory: #F9F5ED;
   --red: #C1121F;
   --white: #FFFFFF;
@@ -60,10 +61,7 @@ nav {
 .marquee-bar { background: var(--gold); padding: 1rem 0; overflow: hidden; white-space: nowrap; }
 .marquee-track { display: inline-flex; animation: marquee 20s linear infinite; }
 .marquee-item { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.08em; color: var(--ink); padding: 0 2.5rem; }
-.marquee-item span { color: var(--red); margin-right: 2.5rem; }
-@keyframes marquee { 0%{transform:translateX(0)}100%{transform:translateX(-50%)} }
-
-.identity { display: grid; grid-template-columns: 1fr 1fr; min-height: 90vh; }
+  .marquee-item .star { color: var(--purple); margin-right: 2.5rem; }
 .identity-left { background: var(--ivory); color: var(--ink); padding: 6rem 4rem 6rem 5rem; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; }
 .identity-left::after { content: 'TEW'; position: absolute; bottom: -2rem; right: -1rem; font-family: 'Bebas Neue', sans-serif; font-size: 14rem; color: rgba(0,0,0,0.05); pointer-events: none; line-height: 1; }
 .section-kicker { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--red); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.8rem; }
@@ -194,19 +192,19 @@ footer { background: var(--ink); border-top: 1px solid rgba(255,255,255,0.06); p
 
 <div class="marquee-bar">
   <div class="marquee-track">
-    <span class="marquee-item">Miss DC 2024 <span>★</span></span>
-    <span class="marquee-item">Yale School of Management <span>★</span></span>
-    <span class="marquee-item">Hechinger Scholar <span>★</span></span>
-    <span class="marquee-item">MLT Fellow <span>★</span></span>
-    <span class="marquee-item">Miss Black NJ 2022 <span>★</span></span>
-    <span class="marquee-item">Howard University Alumna <span>★</span></span>
-    <span class="marquee-item">ΖΦΒ Soror <span>★</span></span>
-    <span class="marquee-item">Financial Services Leader <span>★</span></span>
-    <span class="marquee-item">Miss DC 2024 <span>★</span></span>
-    <span class="marquee-item">Yale School of Management <span>★</span></span>
-    <span class="marquee-item">Hechinger Scholar <span>★</span></span>
-    <span class="marquee-item">MLT Fellow <span>★</span></span>
-    <span class="marquee-item">Miss Black NJ 2022 <span>★</span></span>
+    <span class="marquee-item">Miss DC 2024 <span class="star">★</span></span>
+    <span class="marquee-item">Yale School of Management <span class="star">★</span></span>
+    <span class="marquee-item">Hechinger Scholar <span class="star">★</span></span>
+    <span class="marquee-item">MLT Fellow <span class="star">★</span></span>
+    <span class="marquee-item">Miss Black NJ 2022 <span class="star">★</span></span>
+    <span class="marquee-item">Howard University Alumna <span class="star">★</span></span>
+    <span class="marquee-item">ΖΦΒ Soror <span class="star">★</span></span>
+    <span class="marquee-item">Financial Services Leader <span class="star">★</span></span>
+    <span class="marquee-item">Miss DC 2024 <span class="star">★</span></span>
+    <span class="marquee-item">Yale School of Management <span class="star">★</span></span>
+    <span class="marquee-item">Hechinger Scholar <span class="star">★</span></span>
+    <span class="marquee-item">MLT Fellow <span class="star">★</span></span>
+    <span class="marquee-item">Miss Black NJ 2022 <span class="star">★</span></span>
     <span class="marquee-item">Howard University Alumna <span>★</span></span>
     <span class="marquee-item">ΖΦΒ Soror <span>★</span></span>
     <span class="marquee-item">Financial Services Leader <span>★</span></span>
@@ -217,7 +215,7 @@ footer { background: var(--ink); border-top: 1px solid rgba(255,255,255,0.06); p
   <div class="identity-left">
     <p class="section-kicker">Who She Is</p>
     <h2 class="identity-heading">Built for the<br>room <em>and</em> the<br>revolution.</h2>
-    <p class="identity-body">Tiera E. Williams is a solutions-oriented leader at the intersection of finance, education, and service. From the small town of Clyo, Georgia to the Yale School of Management, she has never stopped pushing — or opening doors for those coming behind her.</p>
+    <p class="identity-body">Tiera E. Williams is a solutions-oriented leader at the intersection of finance, education, and service. From the small town of Cedar Lake, Texas to the Yale School of Management, she has never stopped pushing — or opening doors for those coming behind her.</p>
     <p class="identity-body">As a Hechinger Scholar, MLT Fellow, and proud Howard University alumna, Tiera combines executive-level thinking with ground-level commitment to equity. A financial services strategist by training, a community builder by nature, and a crown-wearer by achievement.</p>
     <div class="badges">
       <span class="badge">Yale MBA</span>
