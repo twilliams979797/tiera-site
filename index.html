@@ -10,8 +10,8 @@
 html { scroll-behavior: smooth; }
 :root {
   --ink: #0A0A0A;
-  --gold: #D4A017;
-  --gold2: #F5CC5A;
+  --gold: #FF007F;
+  --gold2: #FF5FA2;
   --ivory: #F9F5ED;
   --red: #C1121F;
   --white: #FFFFFF;
@@ -36,7 +36,7 @@ nav {
   font-family: 'Bebas Neue', sans-serif;
   font-size: clamp(12rem, 28vw, 26rem);
   color: transparent;
-  -webkit-text-stroke: 1px rgba(212,160,23,0.15);
+  -webkit-text-stroke: 1px rgba(255,0,127,0.15);
   white-space: nowrap; pointer-events: none; z-index: 0; line-height: 1;
 }
 .hero-content {
@@ -73,8 +73,8 @@ nav {
 .identity-body { font-size: 1.05rem; line-height: 1.85; color: #3D3A36; max-width: 480px; margin-bottom: 1.5rem; }
 .badges { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1rem; }
 .badge { background: var(--ink); color: var(--gold2); padding: 0.4rem 1rem; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
-.identity-right { background: var(--ink); display: flex; flex-direction: column; justify-content: space-between; padding: 5rem 4rem; border-left: 1px solid rgba(212,160,23,0.15); }
-.stat-block { border-bottom: 1px solid rgba(212,160,23,0.15); padding: 2.5rem 0; }
+.identity-right { background: var(--ink); display: flex; flex-direction: column; justify-content: space-between; padding: 5rem 4rem; border-left: 1px solid rgba(255,0,127,0.15); }
+.stat-block { border-bottom: 1px solid rgba(255,0,127,0.15); padding: 2.5rem 0; }
 .stat-block:first-child { padding-top: 0; }
 .stat-block:last-child { border-bottom: none; padding-bottom: 0; }
 .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 5rem; line-height: 1; color: var(--gold); }
@@ -97,11 +97,11 @@ nav {
 .manifesto-text { font-family: 'DM Serif Display', serif; font-size: clamp(2.2rem, 4vw, 4rem); font-weight: 400; line-height: 1.3; color: var(--white); }
 .manifesto-text em { font-style: italic; color: var(--gold); }
 .manifesto-text .red { color: var(--red); }
-.manifesto-line { width: 100%; height: 1px; background: rgba(212,160,23,0.2); margin: 4rem 0; }
-.manifesto-pillars { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid rgba(212,160,23,0.15); }
-.pillar { padding: 2.5rem 2rem; border-right: 1px solid rgba(212,160,23,0.15); transition: background 0.3s; }
+.manifesto-line { width: 100%; height: 1px; background: rgba(255,0,127,0.2); margin: 4rem 0; }
+.manifesto-pillars { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid rgba(255,0,127,0.15); }
+.pillar { padding: 2.5rem 2rem; border-right: 1px solid rgba(255,0,127,0.15); transition: background 0.3s; }
 .pillar:last-child { border-right: none; }
-.pillar:hover { background: rgba(212,160,23,0.04); }
+.pillar:hover { background: rgba(255,0,127,0.04); }
 .pillar-icon { font-size: 1.8rem; margin-bottom: 1rem; display: block; }
 .pillar-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 0.05em; color: var(--gold2); margin-bottom: 0.8rem; }
 .pillar-text { font-size: 0.83rem; color: var(--muted); line-height: 1.8; }
@@ -139,7 +139,7 @@ textarea.form-input:focus { border-color: var(--gold); }
 footer { background: var(--ink); border-top: 1px solid rgba(255,255,255,0.06); padding: 2.5rem 5rem; display: flex; justify-content: space-between; align-items: center; }
 .footer-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 0.08em; color: var(--gold); }
 .footer-copy { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.08em; }
-.footer-zeta { font-family: 'DM Serif Display', serif; font-size: 2rem; color: rgba(212,160,23,0.5); }
+.footer-zeta { font-family: 'DM Serif Display', serif; font-size: 2rem; color: rgba(255,0,127,0.5); }
 
 .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.9s ease, transform 0.9s ease; }
 .reveal.on { opacity: 1; transform: none; }
@@ -156,7 +156,7 @@ footer { background: var(--ink); border-top: 1px solid rgba(255,255,255,0.06); p
   .titles-grid { grid-template-columns: 1fr; gap: 2px; }
   .manifesto { padding: 5rem 2rem; }
   .manifesto-pillars { grid-template-columns: 1fr 1fr; }
-  .pillar { border-bottom: 1px solid rgba(212,160,23,0.15); }
+  .pillar { border-bottom: 1px solid rgba(255,0,127,0.15); }
   .edu-strip { grid-template-columns: 1fr; padding: 3rem 2rem; }
   .edu-item { border-right: none; border-bottom: 1px solid rgba(0,0,0,0.1); padding: 2rem; }
   .edu-item:last-child { border-bottom: none; }
