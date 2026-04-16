@@ -61,7 +61,8 @@ nav {
 .marquee-bar { background: var(--gold); padding: 1rem 0; overflow: hidden; white-space: nowrap; }
 .marquee-track { display: inline-flex; animation: marquee 20s linear infinite; }
 .marquee-item { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.08em; color: var(--ink); padding: 0 2.5rem; }
-  .marquee-item .star { color: var(--white); margin-right: 2.5rem; }
+.marquee-item .star { color: var(--white); margin-right: 2.5rem; }
+@keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 .identity-left { background: var(--ivory); color: var(--ink); padding: 6rem 4rem 6rem 5rem; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; }
 .identity-left::after { content: 'TEW'; position: absolute; bottom: -2rem; right: -1rem; font-family: 'Bebas Neue', sans-serif; font-size: 14rem; color: rgba(0,0,0,0.05); pointer-events: none; line-height: 1; }
 .section-kicker { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--red); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.8rem; }
@@ -205,9 +206,9 @@ footer { background: var(--ink); border-top: 1px solid rgba(255,255,255,0.06); p
     <span class="marquee-item">Hechinger Scholar <span class="star">★</span></span>
     <span class="marquee-item">MLT Fellow <span class="star">★</span></span>
     <span class="marquee-item">Miss Black NJ 2022 <span class="star">★</span></span>
-    <span class="marquee-item">Howard University Alumna <span>★</span></span>
-    <span class="marquee-item">ΖΦΒ Soror <span>★</span></span>
-    <span class="marquee-item">Financial Services Leader <span>★</span></span>
+    <span class="marquee-item">Howard University Alumna <span class="star">★</span></span>
+    <span class="marquee-item">ΖΦΒ Soror <span class="star">★</span></span>
+    <span class="marquee-item">Financial Services Leader <span class="star">★</span></span>
   </div>
 </div>
 
