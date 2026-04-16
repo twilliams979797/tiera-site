@@ -556,6 +556,7 @@
 
   <script>
     // ── DATA ──
+    const SHARED_API_ENDPOINT = ''; // Set a shared backend URL here when ready.
     const STORAGE_KEY = 'tiera_submissions';
 
     const sampleSubs = [
@@ -573,8 +574,7 @@
       { id: 12, name: "David Holloway",  email: "dholloway@speakingagency.com",opp: "Corporate speaking — Goldman HBCU event", type: "speaking", date: "2026-03-10", status: "replied",msg: "Goldman Sachs is hosting an HBCU talent pipeline event in NYC." },
     ];
 
-    // ── LOOKUP MAPS ──
-    const typeLabels = { speaking: "Speaking", collab: "Collab", mentor: "Mentorship", media: "Media", other: "Other" };
+    // ── LOOKUP MAPS ──    const typeLabels = { speaking: "Speaking", collab: "Collab", mentor: "Mentorship", media: "Media", other: "Other" };
     const typeTags   = { speaking: "tag-speaking", collab: "tag-collab", mentor: "tag-mentor", media: "tag-media", other: "tag-other" };
     const statusDots = { new: "s-new", review: "s-review", replied: "s-replied", pass: "s-pass" };
     const statusText = { new: "New", review: "In Review", replied: "Replied", pass: "Passed" };
@@ -619,9 +619,43 @@
       return "other";
     }
 
-    function addIncomingSubmission() {
+    async function fetchRemoteSubs() {
+      if (!SHARED_API_ENDPOINT) return null;
+      try {
+        const response = await fetch(SHARED_API_ENDPOINT, { cache: 'no-store' });
+        if (!response.ok) throw new Error('Fetch failed');
+        const data = await response.json();
+        return Array.isArray(data) ? data : null;
+      } catch (err) {
+        console.warn('Remote fetch failed', err);
+        return null;
+      }
+    }
+
+    function safeText(value) {
+      return value ? value.trim() : "";
+    }
+
+    async function addIncomingSubmission() {
       const incoming = getIncomingSubmission();
       if (!incoming) return;
+
+      if (SHARED_API_ENDPOINT) {
+        try {
+          await fetch(SHARED_API_ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              name: incoming.name,
+              email: incoming.email,
+              opportunity: incoming.opp,
+              message: incoming.msg
+            })
+          });
+        } catch (err) {
+          console.warn('Shared backend submit failed, saving locally instead', err);
+        }
+      }
 
       const stored = readStoredSubs();
       const isDuplicate = stored.some(item =>
@@ -649,7 +683,11 @@
       history.replaceState({}, document.title, window.location.pathname);
     }
 
-    function getSubs() {
+    async function getSubs() {
+      if (SHARED_API_ENDPOINT) {
+        const remote = await fetchRemoteSubs();
+        if (remote && remote.length) return remote;
+      }
       const stored = readStoredSubs();
       return stored.length ? stored : sampleSubs.slice();
     }
@@ -671,10 +709,10 @@
     }
 
     // ── RENDER ──
-    function render() {
+    async function render() {
       const body = document.getElementById("table-body");
       const mk   = getMonthKey();
-      const subs = getSubs();
+      const subs = await getSubs();
 
       const filtered = subs.filter(s => {
         const matchFilter =
@@ -783,12 +821,12 @@
     });
 
     // ── INIT ──
-    addIncomingSubmission();
-    document.getElementById("today-date").textContent = new Date().toLocaleDateString("en-US", {
-      weekday: "short", year: "numeric", month: "long", day: "numeric"
+    addIncomingSubmission().then(() => {
+      document.getElementById("today-date").textContent = new Date().toLocaleDateString("en-US", {
+        weekday: "short", year: "numeric", month: "long", day: "numeric"
+      });
+      render();
     });
-
-    render();
   </script>
 
 </body>
