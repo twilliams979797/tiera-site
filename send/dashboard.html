@@ -556,8 +556,9 @@
 
   <script>
     // ── DATA ──
-    // Replace this array with your real form submissions (e.g. fetched from an API or database)
-    const subs = [
+    const STORAGE_KEY = 'tiera_submissions';
+
+    const sampleSubs = [
       { id: 1,  name: "Jordan Abebe",    email: "jabebe@gmail.com",          opp: "Keynote at HBCU Leadership Summit",          type: "speaking", date: "2026-04-14", status: "new",    msg: "We would love to have you keynote our annual summit for HBCU students." },
       { id: 2,  name: "Priya Nair",      email: "priya.n@edventures.org",    opp: "Co-host education equity podcast series",    type: "collab",   date: "2026-04-12", status: "review", msg: "Interested in a 4-part podcast exploring equity in higher ed." },
       { id: 3,  name: "Marcus Lewis",    email: "m.lewis@nytimes.com",       opp: "Profile piece: Women in Finance Leadership", type: "media",    date: "2026-04-10", status: "replied",msg: "NYT is running a series on emerging finance leaders — would love to include you." },
@@ -582,6 +583,77 @@
     let activeSearch = "";
     let activeSubId  = null;
 
+    // ── STORAGE HELPERS ──
+    function safeText(value) {
+      return value ? value.trim() : "";
+    }
+
+    function readStoredSubs() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+      } catch (err) {
+        return [];
+      }
+    }
+
+    function writeStoredSubs(list) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    }
+
+    function getIncomingSubmission() {
+      const params = new URLSearchParams(window.location.search);
+      const name = safeText(params.get("name"));
+      const email = safeText(params.get("email"));
+      const opp = safeText(params.get("opportunity"));
+      const msg = safeText(params.get("message"));
+      if (!name && !email && !opp && !msg) return null;
+      return { name, email, opp, msg };
+    }
+
+    function guessType(opp) {
+      const text = opp.toLowerCase();
+      if (/speak|keynote|talk|panel/.test(text)) return "speaking";
+      if (/podcast|collab|collaboration|coalition|series|workshop|advisory/.test(text)) return "collab";
+      if (/mentor|mentorship|coaching/.test(text)) return "mentor";
+      if (/press|media|feature|segment|interview|story|magazine|article/.test(text)) return "media";
+      return "other";
+    }
+
+    function addIncomingSubmission() {
+      const incoming = getIncomingSubmission();
+      if (!incoming) return;
+
+      const stored = readStoredSubs();
+      const isDuplicate = stored.some(item =>
+        item.name === incoming.name &&
+        item.email === incoming.email &&
+        item.opp === incoming.opp &&
+        item.msg === incoming.msg
+      );
+
+      if (!isDuplicate) {
+        const nextId = stored.reduce((max, item) => Math.max(max, item.id), 0) + 1;
+        stored.unshift({
+          id: nextId,
+          name: incoming.name,
+          email: incoming.email,
+          opp: incoming.opp,
+          type: guessType(incoming.opp),
+          date: new Date().toISOString().slice(0, 10),
+          status: "new",
+          msg: incoming.msg
+        });
+        writeStoredSubs(stored);
+      }
+
+      history.replaceState({}, document.title, window.location.pathname);
+    }
+
+    function getSubs() {
+      const stored = readStoredSubs();
+      return stored.length ? stored : sampleSubs.slice();
+    }
+
     // ── HELPERS ──
     function formatDate(d) {
       const [y, m, day] = d.split("-");
@@ -602,6 +674,7 @@
     function render() {
       const body = document.getElementById("table-body");
       const mk   = getMonthKey();
+      const subs = getSubs();
 
       const filtered = subs.filter(s => {
         const matchFilter =
@@ -613,7 +686,6 @@
         return matchFilter && matchSearch;
       });
 
-      // Stats (always from full dataset)
       document.getElementById("count-total").textContent   = subs.length;
       document.getElementById("count-new").textContent     = subs.filter(s => s.status === "new").length;
       document.getElementById("count-month").textContent   = subs.filter(s => s.date.startsWith(mk)).length;
@@ -644,7 +716,7 @@
 
     // ── MODAL ──
     function openModal(id) {
-      const s = subs.find(x => x.id === id);
+      const s = getSubs().find(x => x.id === id);
       if (!s) return;
       activeSubId = id;
       document.getElementById("modal-name").textContent   = s.name;
@@ -663,12 +735,13 @@
     }
 
     function updateStatus(id, newStatus) {
+      const subs = readStoredSubs();
       const s = subs.find(x => x.id === id);
       if (s) {
         s.status = newStatus;
-        closeModal();
-        render();
+        writeStoredSubs(subs);
       }
+      render();
     }
 
     // ── EVENT LISTENERS ──
@@ -697,7 +770,7 @@
     });
 
     document.getElementById("modal-reply").addEventListener("click", () => {
-      const s = subs.find(x => x.id === activeSubId);
+      const s = getSubs().find(x => x.id === activeSubId);
       if (s) window.location.href = `mailto:${s.email}?subject=Re: ${encodeURIComponent(s.opp)}`;
     });
 
@@ -710,6 +783,7 @@
     });
 
     // ── INIT ──
+    addIncomingSubmission();
     document.getElementById("today-date").textContent = new Date().toLocaleDateString("en-US", {
       weekday: "short", year: "numeric", month: "long", day: "numeric"
     });
