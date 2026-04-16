@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Submissions Dashboard – Tiera E. Williams</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold: #C9A84C;
+      --gold-light: #E8D5A3;
+      --gold-dim: #8A6E30;
+      --cream: #FAF7F2;
+      --ink: #1A1714;
+      --ink-mid: #3D3530;
+      --ink-soft: #7A6E65;
+      --border: rgba(201,168,76,0.25);
+      --surface: rgba(255,255,255,0.6);
+    }
+
+    html, body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    /* ── TOP BAR ── */
+    .top-bar {
+      background: var(--ink);
+      padding: 14px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--gold-dim);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .top-bar .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      letter-spacing: 0.18em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    .top-bar .subline {
+      font-size: 11px;
+      color: var(--gold-dim);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 300;
+      margin-top: 2px;
+    }
+
+    .top-bar .date-badge {
+      font-size: 11px;
+      color: var(--gold-dim);
+      letter-spacing: 0.08em;
+    }
+
+    /* ── MAIN LAYOUT ── */
+    .main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 36px 32px 60px;
+    }
+
+    .page-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 30px;
+      color: var(--ink);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .page-subtitle {
+      font-size: 13px;
+      color: var(--ink-soft);
+      letter-spacing: 0.06em;
+      margin-bottom: 28px;
+    }
+
+    /* ── STAT CARDS ── */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+
+    .stat-card {
+      background: var(--ink);
+      border-radius: 10px;
+      padding: 18px 20px;
+      border: 1px solid rgba(201,168,76,0.18);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--gold);
+    }
+
+    .stat-label {
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      margin-bottom: 10px;
+      font-weight: 400;
+    }
+
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      color: var(--gold);
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 5px;
+    }
+
+    .stat-change {
+      font-size: 11px;
+      color: rgba(201,168,76,0.45);
+    }
+
+    .stat-change.up { color: #7BBD72; }
+
+    /* ── FILTER ROW ── */
+    .filter-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .filter-label {
+      font-size: 11px;
+      color: var(--ink-soft);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-right: 4px;
+    }
+
+    .filter-btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      padding: 5px 16px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--ink-soft);
+      cursor: pointer;
+      letter-spacing: 0.06em;
+      transition: all 0.18s;
+    }
+
+    .filter-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold-dim);
+    }
+
+    .filter-btn.active {
+      background: var(--gold);
+      color: var(--ink);
+      border-color: var(--gold);
+      font-weight: 500;
+    }
+
+    .search-box {
+      margin-left: auto;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      padding: 6px 16px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--ink);
+      width: 220px;
+      outline: none;
+      transition: border-color 0.18s;
+    }
+
+    .search-box:focus { border-color: var(--gold); }
+
+    /* ── TABLE ── */
+    .sub-table {
+      background: white;
+      border-radius: 12px;
+      border: 1px solid rgba(201,168,76,0.15);
+      overflow: hidden;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.04);
+    }
+
+    .table-head {
+      display: grid;
+      grid-template-columns: 2fr 2fr 1fr 1.2fr 1fr 0.7fr;
+      padding: 11px 22px;
+      background: var(--ink);
+      border-bottom: 1px solid rgba(201,168,76,0.2);
+      gap: 14px;
+    }
+
+    .th {
+      font-size: 10px;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      font-weight: 500;
+    }
+
+    .sub-row {
+      display: grid;
+      grid-template-columns: 2fr 2fr 1fr 1.2fr 1fr 0.7fr;
+      padding: 15px 22px;
+      border-bottom: 1px solid rgba(201,168,76,0.08);
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .sub-row:last-child { border-bottom: none; }
+    .sub-row:hover { background: #FBF8F2; }
+
+    .sub-name {
+      font-weight: 500;
+      font-size: 14px;
+      color: var(--ink);
+    }
+
+    .sub-email {
+      font-size: 12px;
+      color: var(--ink-soft);
+      margin-top: 2px;
+    }
+
+    .sub-opp {
+      font-size: 13px;
+      color: var(--ink-mid);
+      line-height: 1.35;
+    }
+
+    .sub-date {
+      font-size: 12px;
+      color: var(--ink-soft);
+    }
+
+    /* ── TAGS ── */
+    .tag {
+      display: inline-block;
+      font-size: 10px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    .tag-speaking { background: #EEF0FB; color: #4A5BB5; }
+    .tag-collab   { background: #FBF3E8; color: #9A6B1A; }
+    .tag-mentor   { background: #EDF7EE; color: #3B7040; }
+    .tag-media    { background: #FCF0F5; color: #A33565; }
+    .tag-other    { background: #F2F2F2; color: #666; }
+
+    /* ── STATUS ── */
+    .status-cell {
+      display: flex;
+      align-items: center;
+      font-size: 12px;
+      color: var(--ink-mid);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 7px;
+      flex-shrink: 0;
+    }
+
+    .s-new     { background: var(--gold); }
+    .s-review  { background: #5A8CE8; }
+    .s-replied { background: #4BA856; }
+    .s-pass    { background: #C0BEB7; }
+
+    /* ── ACTION BUTTON ── */
+    .action-btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      padding: 4px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--gold-dim);
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+
+    .action-btn:hover {
+      background: var(--gold);
+      color: var(--ink);
+      border-color: var(--gold);
+    }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(26,23,20,0.7);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: white;
+      border-radius: 14px;
+      padding: 28px 32px;
+      max-width: 520px;
+      width: 90%;
+      border-top: 3px solid var(--gold);
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 14px; right: 18px;
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: var(--ink-soft);
+      line-height: 1;
+    }
+
+    .modal-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 2px;
+    }
+
+    .modal-email {
+      font-size: 12px;
+      color: var(--gold-dim);
+      margin-bottom: 18px;
+    }
+
+    .modal-field {
+      margin-bottom: 14px;
+    }
+
+    .modal-label {
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-bottom: 3px;
+    }
+
+    .modal-value {
+      font-size: 14px;
+      color: var(--ink-mid);
+      line-height: 1.5;
+    }
+
+    .modal-msg {
+      background: var(--cream);
+      border-left: 3px solid var(--gold);
+      padding: 12px 16px;
+      border-radius: 0 8px 8px 0;
+      font-size: 13px;
+      color: var(--ink-mid);
+      font-style: italic;
+      line-height: 1.6;
+      margin-top: 6px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .modal-actions .btn-primary {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--gold);
+      color: var(--ink);
+      border: none;
+      padding: 9px 22px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+
+    .modal-actions .btn-primary:hover { opacity: 0.85; }
+
+    .modal-actions .btn-secondary {
+      font-family: 'DM Sans', sans-serif;
+      background: transparent;
+      color: var(--ink-soft);
+      border: 1px solid var(--border);
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .modal-actions .btn-secondary:hover {
+      border-color: var(--gold);
+      color: var(--gold-dim);
+    }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      text-align: center;
+      padding: 48px;
+      color: var(--ink-soft);
+      font-size: 14px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 720px) {
+      .stat-row { grid-template-columns: repeat(2, 1fr); }
+      .table-head, .sub-row {
+        grid-template-columns: 2fr 1fr 0.9fr;
+      }
+      .th:nth-child(2), .sub-row > *:nth-child(2),
+      .th:nth-child(4), .sub-row > *:nth-child(4),
+      .th:nth-child(6), .sub-row > *:nth-child(6) { display: none; }
+      .search-box { width: 150px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div>
+      <div class="logo">Tiera E. Williams</div>
+      <div class="subline">Submissions Dashboard</div>
+    </div>
+    <div class="date-badge" id="today-date"></div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="page-title">Inbound Submissions</div>
+    <div class="page-subtitle">Speaking · Collaborations · Mentorship · Media · Other</div>
+
+    <!-- STAT CARDS -->
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-label">Total</div>
+        <div class="stat-number" id="count-total">0</div>
+        <div class="stat-change">All time</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">New</div>
+        <div class="stat-number" id="count-new" style="color: #C9A84C;">0</div>
+        <div class="stat-change up">Needs review</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">This Month</div>
+        <div class="stat-number" id="count-month">0</div>
+        <div class="stat-change" id="month-label">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Replied</div>
+        <div class="stat-number" id="count-replied" style="color: #4BA856;">0</div>
+        <div class="stat-change">Responded</div>
+      </div>
+    </div>
+
+    <!-- FILTERS -->
+    <div class="filter-row">
+      <span class="filter-label">Filter:</span>
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="speaking">Speaking</button>
+      <button class="filter-btn" data-filter="collab">Collab</button>
+      <button class="filter-btn" data-filter="mentor">Mentorship</button>
+      <button class="filter-btn" data-filter="media">Media</button>
+      <button class="filter-btn" data-filter="new-only">New Only</button>
+      <input class="search-box" id="search-input" type="text" placeholder="Search name or message…" />
+    </div>
+
+    <!-- TABLE -->
+    <div class="sub-table">
+      <div class="table-head">
+        <div class="th">Submitter</div>
+        <div class="th">Opportunity</div>
+        <div class="th">Type</div>
+        <div class="th">Date</div>
+        <div class="th">Status</div>
+        <div class="th">Action</div>
+      </div>
+      <div class="table-body" id="table-body"></div>
+    </div>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal">
+      <button class="modal-close" id="modal-close">&times;</button>
+      <div class="modal-name" id="modal-name"></div>
+      <div class="modal-email" id="modal-email"></div>
+      <div class="modal-field">
+        <div class="modal-label">Opportunity</div>
+        <div class="modal-value" id="modal-opp"></div>
+      </div>
+      <div style="display:flex; gap:24px;">
+        <div class="modal-field">
+          <div class="modal-label">Type</div>
+          <div class="modal-value" id="modal-type"></div>
+        </div>
+        <div class="modal-field">
+          <div class="modal-label">Date</div>
+          <div class="modal-value" id="modal-date"></div>
+        </div>
+        <div class="modal-field">
+          <div class="modal-label">Status</div>
+          <div class="modal-value" id="modal-status"></div>
+        </div>
+      </div>
+      <div class="modal-field">
+        <div class="modal-label">Message</div>
+        <div class="modal-msg" id="modal-msg"></div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-primary" id="modal-reply">Reply via Email</button>
+        <button class="btn-secondary" id="modal-mark">Mark as Replied</button>
+        <button class="btn-secondary" id="modal-pass">Pass</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ── DATA ──
+    // Replace this array with your real form submissions (e.g. fetched from an API or database)
+    const subs = [
+      { id: 1,  name: "Jordan Abebe",    email: "jabebe@gmail.com",          opp: "Keynote at HBCU Leadership Summit",          type: "speaking", date: "2026-04-14", status: "new",    msg: "We would love to have you keynote our annual summit for HBCU students." },
+      { id: 2,  name: "Priya Nair",      email: "priya.n@edventures.org",    opp: "Co-host education equity podcast series",    type: "collab",   date: "2026-04-12", status: "review", msg: "Interested in a 4-part podcast exploring equity in higher ed." },
+      { id: 3,  name: "Marcus Lewis",    email: "m.lewis@nytimes.com",       opp: "Profile piece: Women in Finance Leadership", type: "media",    date: "2026-04-10", status: "replied",msg: "NYT is running a series on emerging finance leaders — would love to include you." },
+      { id: 4,  name: "Aaliyah Grant",   email: "aaliyah@blackgirlscode.org",opp: "Mentorship panel for BGC cohort",            type: "mentor",   date: "2026-04-09", status: "new",    msg: "Our spring cohort would be so inspired by your journey from Howard to Yale." },
+      { id: 5,  name: "Derek Osei",      email: "dosei@mlkfdn.org",          opp: "MLK Day keynote, Atlanta chapter",           type: "speaking", date: "2026-04-07", status: "new",    msg: "Annual MLK Day celebration — education equity theme." },
+      { id: 6,  name: "Sofia Reyes",     email: "sofia@latinalead.com",      opp: "Coalition for Women of Color in Business",   type: "collab",   date: "2026-04-05", status: "review", msg: "Looking for advisory board members for our inaugural cohort." },
+      { id: 7,  name: "Tanya Brooks",    email: "tbrooks@essence.com",       opp: "Essence feature — Miss DC spotlight",        type: "media",    date: "2026-04-03", status: "replied",msg: "Essence 2026 Power Issue — pageant titleholders driving change." },
+      { id: 8,  name: "Isaiah Williams", email: "isaiah@howardforward.edu",  opp: "Homecoming panel: From Howard to the World", type: "speaking", date: "2026-03-28", status: "replied",msg: "Howard Homecoming alumni panel — your story would resonate deeply." },
+      { id: 9,  name: "Camille Fontaine",email: "cam@youthrise.org",         opp: "1:1 mentorship request – pre-MBA applicant", type: "mentor",   date: "2026-03-22", status: "pass",   msg: "First-gen applicant hoping for 30 minutes of your time." },
+      { id: 10, name: "Leo Park",        email: "leopark@wbur.org",          opp: "Radio segment: Crown & Career",              type: "media",    date: "2026-03-18", status: "review", msg: "WBUR Boston — segment on pageantry and professional ambition." },
+      { id: 11, name: "Nia Thompson",    email: "nthompson@financematters.co",opp: "Workshop: Financial literacy for HBCU women",type: "collab",  date: "2026-03-14", status: "new",    msg: "Building a workshop series and want Tiera as lead facilitator." },
+      { id: 12, name: "David Holloway",  email: "dholloway@speakingagency.com",opp: "Corporate speaking — Goldman HBCU event", type: "speaking", date: "2026-03-10", status: "replied",msg: "Goldman Sachs is hosting an HBCU talent pipeline event in NYC." },
+    ];
+
+    // ── LOOKUP MAPS ──
+    const typeLabels = { speaking: "Speaking", collab: "Collab", mentor: "Mentorship", media: "Media", other: "Other" };
+    const typeTags   = { speaking: "tag-speaking", collab: "tag-collab", mentor: "tag-mentor", media: "tag-media", other: "tag-other" };
+    const statusDots = { new: "s-new", review: "s-review", replied: "s-replied", pass: "s-pass" };
+    const statusText = { new: "New", review: "In Review", replied: "Replied", pass: "Passed" };
+
+    let activeFilter = "all";
+    let activeSearch = "";
+    let activeSubId  = null;
+
+    // ── HELPERS ──
+    function formatDate(d) {
+      const [y, m, day] = d.split("-");
+      const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+      return `${months[+m - 1]} ${+day}, ${y}`;
+    }
+
+    function getMonthKey() {
+      const n = new Date();
+      return `${n.getFullYear()}-${String(n.getMonth() + 1).padStart(2, "0")}`;
+    }
+
+    function getMonthLabel() {
+      return new Date().toLocaleDateString("en-US", { month: "long", year: "numeric" });
+    }
+
+    // ── RENDER ──
+    function render() {
+      const body = document.getElementById("table-body");
+      const mk   = getMonthKey();
+
+      const filtered = subs.filter(s => {
+        const matchFilter =
+          activeFilter === "all"      ? true :
+          activeFilter === "new-only" ? s.status === "new" :
+          s.type === activeFilter;
+        const q = activeSearch.toLowerCase();
+        const matchSearch = !q || s.name.toLowerCase().includes(q) || s.opp.toLowerCase().includes(q) || s.msg.toLowerCase().includes(q);
+        return matchFilter && matchSearch;
+      });
+
+      // Stats (always from full dataset)
+      document.getElementById("count-total").textContent   = subs.length;
+      document.getElementById("count-new").textContent     = subs.filter(s => s.status === "new").length;
+      document.getElementById("count-month").textContent   = subs.filter(s => s.date.startsWith(mk)).length;
+      document.getElementById("count-replied").textContent = subs.filter(s => s.status === "replied").length;
+      document.getElementById("month-label").textContent   = getMonthLabel();
+
+      if (!filtered.length) {
+        body.innerHTML = '<div class="empty-state">No submissions match this filter.</div>';
+        return;
+      }
+
+      body.innerHTML = filtered.map(s => `
+        <div class="sub-row" data-id="${s.id}">
+          <div>
+            <div class="sub-name">${s.name}</div>
+            <div class="sub-email">${s.email}</div>
+          </div>
+          <div class="sub-opp">${s.opp}</div>
+          <div><span class="tag ${typeTags[s.type] || "tag-other"}">${typeLabels[s.type] || "Other"}</span></div>
+          <div class="sub-date">${formatDate(s.date)}</div>
+          <div class="status-cell">
+            <span class="status-dot ${statusDots[s.status]}"></span>${statusText[s.status]}
+          </div>
+          <div><button class="action-btn" data-id="${s.id}">View ↗</button></div>
+        </div>
+      `).join("");
+    }
+
+    // ── MODAL ──
+    function openModal(id) {
+      const s = subs.find(x => x.id === id);
+      if (!s) return;
+      activeSubId = id;
+      document.getElementById("modal-name").textContent   = s.name;
+      document.getElementById("modal-email").textContent  = s.email;
+      document.getElementById("modal-opp").textContent    = s.opp;
+      document.getElementById("modal-type").textContent   = typeLabels[s.type] || "Other";
+      document.getElementById("modal-date").textContent   = formatDate(s.date);
+      document.getElementById("modal-status").textContent = statusText[s.status];
+      document.getElementById("modal-msg").textContent    = `"${s.msg}"`;
+      document.getElementById("modal-overlay").classList.add("open");
+    }
+
+    function closeModal() {
+      document.getElementById("modal-overlay").classList.remove("open");
+      activeSubId = null;
+    }
+
+    function updateStatus(id, newStatus) {
+      const s = subs.find(x => x.id === id);
+      if (s) {
+        s.status = newStatus;
+        closeModal();
+        render();
+      }
+    }
+
+    // ── EVENT LISTENERS ──
+    document.querySelectorAll(".filter-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeFilter = btn.dataset.filter;
+        render();
+      });
+    });
+
+    document.getElementById("search-input").addEventListener("input", e => {
+      activeSearch = e.target.value;
+      render();
+    });
+
+    document.getElementById("table-body").addEventListener("click", e => {
+      const btn = e.target.closest(".action-btn");
+      if (btn) openModal(+btn.dataset.id);
+    });
+
+    document.getElementById("modal-close").addEventListener("click", closeModal);
+    document.getElementById("modal-overlay").addEventListener("click", e => {
+      if (e.target === document.getElementById("modal-overlay")) closeModal();
+    });
+
+    document.getElementById("modal-reply").addEventListener("click", () => {
+      const s = subs.find(x => x.id === activeSubId);
+      if (s) window.location.href = `mailto:${s.email}?subject=Re: ${encodeURIComponent(s.opp)}`;
+    });
+
+    document.getElementById("modal-mark").addEventListener("click", () => {
+      if (activeSubId) updateStatus(activeSubId, "replied");
+    });
+
+    document.getElementById("modal-pass").addEventListener("click", () => {
+      if (activeSubId) updateStatus(activeSubId, "pass");
+    });
+
+    // ── INIT ──
+    document.getElementById("today-date").textContent = new Date().toLocaleDateString("en-US", {
+      weekday: "short", year: "numeric", month: "long", day: "numeric"
+    });
+
+    render();
+  </script>
+
+</body>
+</html>
